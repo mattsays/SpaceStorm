@@ -62,7 +62,7 @@ nb-configuration.xml
 ## Gradle
 desktop/build.gradle
 android/build.gradle
-.gradle
+*.gradle
 gradle-app.setting
 build/
 
