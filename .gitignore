@@ -60,7 +60,8 @@ nbactions.xml
 nb-configuration.xml
 
 ## Gradle
-
+desktop/build.gradle
+android/build.gradle
 .gradle
 gradle-app.setting
 build/
@@ -68,3 +69,4 @@ build/
 ## OS Specific
 .DS_Store
 Thumbs.db
+android/res/drawable-hdpi/*.png
