@@ -1,15 +1,15 @@
 package it.mattsay.characters;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import it.mattsay.game.SpaceStorm;
+import it.mattsay.projectile.Bullet;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -23,11 +23,10 @@ public class Player implements Character{
     long lastShootTime;
     SpaceStorm game;
     Texture sprite;
-    Rectangle rectangle;
+    static Rectangle rectangle;
     Rectangle laser = new Rectangle();
     OrthographicCamera camera;
-    Bullet bullet;
-    ArrayList<Bullet> bullets;
+    static ArrayList<Bullet> bullets;
 
     public Player(int x , int y , int width, int height, SpaceStorm game, Texture sp , OrthographicCamera camera){
         this.width = width;
@@ -46,7 +45,9 @@ public class Player implements Character{
 
     @Override
     public void draw() {
+        game.batch.begin();
         game.batch.draw(sprite, rectangle.x , rectangle.y , rectangle.width , rectangle.height);
+        game.batch.end();
     }
 
     @Override
@@ -62,12 +63,12 @@ public class Player implements Character{
 
 
           if(TimeUtils.nanoTime() - lastShootTime > 1000000000){
-              Bullet bullet = new Bullet();
-              bullet.position.set(rectangle.x + 14, rectangle.y + 47);
+              Vector2 vector2 = new Vector2(rectangle.x + 14 , rectangle.y + 47);
+              Bullet bullet = new Bullet(vector2);
               bullets.add(bullet);
               lastShootTime = TimeUtils.nanoTime();
           }
-              for(Iterator<Bullet> itr = bullets.iterator(); itr.hasNext(); )
+              for(Iterator<Bullet> itr = bullets.iterator(); itr.hasNext();)
               {
                   Bullet b = itr.next();
                   game.batch.begin();
@@ -124,6 +125,10 @@ public class Player implements Character{
 
     @Override
     public Rectangle getRectangle() {
+        return rectangle;
+    }
+
+    public static Rectangle getRectangles() {
         return rectangle;
     }
 

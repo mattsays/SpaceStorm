@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import it.mattsay.characters.Enemy;
 import it.mattsay.characters.Player;
 import it.mattsay.game.SpaceStorm;
 /**
@@ -17,6 +18,7 @@ public class PlayScreen implements Screen{
 
     SpaceStorm game;
     Player player;
+    Enemy enemy;
     OrthographicCamera camera;
 
     public PlayScreen(SpaceStorm spaceStorm)
@@ -24,8 +26,8 @@ public class PlayScreen implements Screen{
         game = spaceStorm;
         camera = new OrthographicCamera();
         camera.setToOrtho(false , 800 ,480);
-        Texture psprite = new Texture(Gdx.files.internal("SPACESHIP.png"));
-        player = new Player(800 / 2 - 64 / 2,20,30,48,game,psprite,camera);
+        player = new Player(800 / 2 - 64 / 2,20,30,48,game,new Texture(Gdx.files.internal("SPACESHIP.png")),camera);
+        enemy = new Enemy(32 , 32 , game ,new Texture(Gdx.files.internal("ENEMY.png")));
     }
 
     @Override
@@ -41,11 +43,11 @@ public class PlayScreen implements Screen{
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         //Draw the Player
-        game.batch.begin();
         player.draw();
-        game.batch.end();
         //Update the Player
         player.update(delta);
+        //Update the Enemies
+        enemy.update(delta);
     }
 
     @Override
