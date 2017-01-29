@@ -9,7 +9,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
 import it.mattsay.game.SpaceStorm;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by MattSay on 29/01/2017.
@@ -22,9 +24,10 @@ public class Player implements Character{
     SpaceStorm game;
     Texture sprite;
     Rectangle rectangle;
-    Rectangle laser;
+    Rectangle laser = new Rectangle();
     OrthographicCamera camera;
-
+    Bullet bullet;
+    ArrayList<Bullet> bullets;
 
     public Player(int x , int y , int width, int height, SpaceStorm game, Texture sp , OrthographicCamera camera){
         this.width = width;
@@ -37,6 +40,7 @@ public class Player implements Character{
         rectangle.width = width;
         rectangle.height = height;
         this.camera = camera;
+        bullets = new ArrayList<Bullet>();
     }
 
 
@@ -49,16 +53,34 @@ public class Player implements Character{
     public void update(float delta) {
 
       //Handle Input
-      if(Gdx.input.isTouched()){
           Vector3 touch = new Vector3();
           touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
           camera.unproject(touch);
           rectangle.x = touch.x - 30 / 2;
-      }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            rectangle.x -= 300 * delta;
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            rectangle.x += 300 * delta;
+
+      //Bullets Shooting
+
+
+          if(TimeUtils.nanoTime() - lastShootTime > 1000000000){
+              Bullet bullet = new Bullet();
+              bullet.position.set(rectangle.x + 14, rectangle.y + 47);
+              bullets.add(bullet);
+              lastShootTime = TimeUtils.nanoTime();
+          }
+              for(Iterator<Bullet> itr = bullets.iterator(); itr.hasNext(); )
+              {
+                  Bullet b = itr.next();
+                  game.batch.begin();
+                  game.batch.draw(new Texture(Gdx.files.internal("LASER.png")), b.position.x, b.position.y);
+                  game.batch.end();
+                  b.update();
+
+                  if(b.position.y > Gdx.graphics.getHeight())
+                  {
+                      itr.remove();
+                  }
+              }
+
 
         //Make the Borders
         if (rectangle.x < 0)
@@ -68,7 +90,18 @@ public class Player implements Character{
 
     }
 
+    public void CreateLaser(float delta){
+        laser = new Rectangle();
+        laser.y = rectangle.y;
+        laser.x = rectangle.x;
+        laser.width = 3;
+        laser.height = 7;
+        Texture lasers = new Texture(Gdx.files.internal("LASER.png"));
+        game.batch.begin();
+        game.batch.draw(lasers , laser.x , laser.y , laser.width , laser.height);
+        game.batch.end();
 
+    }
 
 
     @Override
