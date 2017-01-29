@@ -2,6 +2,7 @@ package it.mattsay.characters;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -27,6 +28,7 @@ public class Player implements Character{
     static Rectangle rectangle;
     Rectangle laser = new Rectangle();
     OrthographicCamera camera;
+    Sound ShootSound;
     static ArrayList<Bullet> bullets;
 
     public Player(int x , int y , int width, int height, SpaceStorm game, Texture sp , OrthographicCamera camera){
@@ -41,6 +43,7 @@ public class Player implements Character{
         rectangle.height = height;
         this.camera = camera;
         bullets = new ArrayList<Bullet>();
+        ShootSound = Gdx.audio.newSound(Gdx.files.internal("SHOOT.wav"));
     }
 
 
@@ -73,6 +76,7 @@ public class Player implements Character{
               Vector2 vector2 = new Vector2(rectangle.x + 14 , rectangle.y + 47);
               Bullet bullet = new Bullet(vector2);
               bullets.add(bullet);
+              ShootSound.play(0.05f);
               lastShootTime = TimeUtils.nanoTime();
           }
               for(Iterator<Bullet> itr = bullets.iterator(); itr.hasNext();)
