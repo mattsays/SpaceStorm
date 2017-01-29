@@ -1,6 +1,7 @@
 package it.mattsay.characters;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
@@ -53,12 +54,18 @@ public class Player implements Character{
     @Override
     public void update(float delta) {
 
+        boolean gyroscopeAvail = Gdx.input.isPeripheralAvailable(Input.Peripheral.Gyroscope);
       //Handle Input
           Vector3 touch = new Vector3();
           touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
           camera.unproject(touch);
           rectangle.x = touch.x - 30 / 2;
-
+          if(gyroscopeAvail){
+              Vector3 gyro = new Vector3();
+              gyro.set(Gdx.input.getGyroscopeX() , 0 , 0);
+              camera.unproject(gyro);
+              rectangle.x = gyro.x - 30 / 2;
+          }
       //Bullets Shooting
 
 
