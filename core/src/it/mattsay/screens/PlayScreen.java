@@ -1,5 +1,6 @@
 package it.mattsay.screens;
 
+import assets.AssetsManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -26,8 +27,8 @@ public class PlayScreen implements Screen{
         game = spaceStorm;
         camera = new OrthographicCamera();
         camera.setToOrtho(false , 800 ,480);
-        player = new Player(800 / 2 - 64 / 2,20,30,48,game,new Texture(Gdx.files.internal("SPACESHIP.png")),camera);
-        enemy = new Enemy(32 , 32 , game ,new Texture(Gdx.files.internal("ENEMY.png")));
+        player = new Player(800 / 2 - 64 / 2,20,30,48,game, AssetsManager.getTexture(AssetsManager.Assets.PLAYER),camera);
+        enemy = new Enemy(32 , 32 , game ,AssetsManager.getTexture(AssetsManager.Assets.ENEMY));
     }
 
     @Override

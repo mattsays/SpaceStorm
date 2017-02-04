@@ -1,5 +1,6 @@
 package it.mattsay.characters;
 
+import assets.AssetsManager;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.audio.Sound;
@@ -84,7 +85,7 @@ public class Player implements Character{
               {
                   Bullet b = itr.next();
                   game.batch.begin();
-                  game.batch.draw(new Texture(Gdx.files.internal("LASER.png")), b.position.x, b.position.y);
+                  game.batch.draw(AssetsManager.getTexture(AssetsManager.Assets.BULLET), b.position.x, b.position.y);
                   game.batch.end();
                   b.update();
 

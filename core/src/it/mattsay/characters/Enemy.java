@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.sun.org.apache.regexp.internal.RE;
 import it.mattsay.game.SpaceStorm;
 import it.mattsay.projectile.Bullet;
+import it.mattsay.screens.MenuScreen;
+import it.mattsay.states.GameStateManager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -71,7 +73,8 @@ public class Enemy implements Character{
                     --Player.lives;
                     if(Player.lives == 0){
                         Player.getRectangles().set(0, 0, 0 , 0);
-
+                        game.setScreen(new MenuScreen(game));
+                        GameStateManager.setState(GameStateManager.GameStates.IN_MENU);
                     }
                 }
                  for(Iterator<Bullet> iter = Player.bullets.iterator(); iter.hasNext();){
