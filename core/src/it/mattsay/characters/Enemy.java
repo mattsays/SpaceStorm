@@ -68,6 +68,11 @@ public class Enemy implements Character{
                 }
                 if(r.overlaps(Player.getRectangles())){
                     itr.remove();
+                    --Player.lives;
+                    if(Player.lives == 0){
+                        Player.getRectangles().set(0, 0, 0 , 0);
+
+                    }
                 }
                  for(Iterator<Bullet> iter = Player.bullets.iterator(); iter.hasNext();){
                     Bullet bullet = iter.next();

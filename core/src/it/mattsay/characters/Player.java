@@ -21,6 +21,7 @@ import java.util.Iterator;
 public class Player implements Character{
 
     int width = 0;
+    static int lives = 3;
     int height = 0;
     long lastShootTime;
     SpaceStorm game;
